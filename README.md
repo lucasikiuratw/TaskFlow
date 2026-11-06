@@ -18,13 +18,13 @@ para compor o portfólio dos integrantes.
 
 ## 2. Integrantes
 
-*Lucas Yudi Ikiura*
+*Lucas Yudi Ikiura *
 - Desenvolvimento da interface HTML.
 - Estilização com CSS.
 - Programação do servidor em Python.
 - Integração com o banco de dados SQLite.
 
-*Leonardo Bastos Cantarin*
+*Leonardo Bastos Cantarin *
 - Desenvolvimento das funcionalidades JavaScript.
 - Interatividade dos botões.
 - Desenvolvimento do gráfico de produtividade.
@@ -122,7 +122,6 @@ git clone https://github.com/lucasikiuratw/TaskFlow.git
 
 Entre na pasta:
 
-bash
 cd TaskFlow
 
 
@@ -130,19 +129,16 @@ cd TaskFlow
 
 No Windows:
 
-bash
 python -m venv .venv
 
 
 ### Passo 3 - Instalar as dependências
 
-bash
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 
 
 ### Passo 4 - Executar o programa
 
-bash
 .\.venv\Scripts\python.exe app.py
 
 
