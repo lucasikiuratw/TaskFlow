@@ -1,0 +1,88 @@
+/* Configurações gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f5f9;
+    color: #1e293b;
+    padding: 35px;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #1d4ed8;
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #dbeafe;
+}
+
+/* Área principal */
+main {
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Cards de resumo */
+.resumo {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: white;
+    flex: 1;
+    padding: 25px;
+    border-radius: 12px;
+    border-left: 5px solid #2563eb;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+/* Área das tarefas */
+.tarefas {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tarefas h2 {
+    margin-bottom: 15px;
+}
+
+/* Responsividade */
+@media (max-width: 700px) {
+    body {
+        padding: 15px;
+    }
+
+    .resumo {
+        flex-direction: column;
+    }
+}
