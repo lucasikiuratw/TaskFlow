@@ -1,52 +1,162 @@
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>TaskFlow | Gerenciador de Tarefas</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-    <header>
-        <h1>TaskFlow</h1>
-        <p>Organize suas tarefas e acompanhe sua produtividade.</p>
-    </header>
+    <div class="container">
 
-    <main>
+        <!-- Cabeçalho -->
+        <header class="header">
 
-        <section class="resumo">
+            <div>
+                <h1>TaskFlow</h1>
+
+                <p>
+                    Organize suas tarefas e acompanhe sua produtividade.
+                </p>
+            </div>
+
+        </header>
+
+
+        <!-- Painel de estatísticas -->
+        <section class="dashboard">
 
             <div class="card">
+
                 <h3>Total de tarefas</h3>
-                <p>0</p>
+
+                <span id="totalTasks">0</span>
+
             </div>
 
+
             <div class="card">
+
                 <h3>Em andamento</h3>
-                <p>0</p>
+
+                <span id="progressTasks">0</span>
+
             </div>
 
+
             <div class="card">
+
                 <h3>Concluídas</h3>
-                <p>0</p>
+
+                <span id="completedTasks">0</span>
+
             </div>
 
         </section>
 
-        <section class="tarefas">
+
+        <!-- Cadastro de tarefas -->
+        <section class="task-form">
+
+            <h2>Adicionar nova tarefa</h2>
+
+            <form id="taskForm">
+
+                <div class="form-group">
+
+                    <label for="taskTitle">
+                        Nome da tarefa
+                    </label>
+
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        placeholder="Ex: Estudar Python"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="taskDescription">
+                        Descrição
+                    </label>
+
+                    <textarea
+                        id="taskDescription"
+                        placeholder="Descreva sua atividade..."
+                    ></textarea>
+
+                </div>
+
+
+                <button type="submit" class="btn-add">
+                    + Adicionar tarefa
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Lista de tarefas -->
+        <section class="tasks-section">
 
             <h2>Minhas tarefas</h2>
 
-            <p>Suas atividades aparecerão aqui.</p>
+            <div id="taskList">
+
+                <p class="empty-message">
+                    Suas atividades aparecerão aqui.
+                </p>
+
+            </div>
 
         </section>
 
-    </main>
+
+        <!-- Gráfico de produtividade -->
+        <section class="chart-section">
+
+            <h2>Minha produtividade</h2>
+
+            <p>
+                Acompanhe suas tarefas concluídas.
+            </p>
+
+            <canvas id="taskChart"></canvas>
+
+        </section>
+
+
+        <!-- Rodapé -->
+        <footer>
+
+            <p>
+                TaskFlow - Projeto acadêmico
+            </p>
+
+        </footer>
+
+    </div>
+
+
+    <!-- Biblioteca para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JavaScript do projeto -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
+
 </html>
