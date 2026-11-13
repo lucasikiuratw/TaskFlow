@@ -1,5 +1,6 @@
 
 from flask import Flask, render_template, request, jsonify
+from datetime import date
 import sqlite3
 
 app = Flask(__name__)
@@ -11,7 +12,7 @@ def conectar_banco():
     return conexao
 
 
-# Criar tabela, caso não exista
+# Criar ou atualizar a tabela
 def criar_tabela():
     conexao = conectar_banco()
 
@@ -20,12 +21,46 @@ def criar_tabela():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             titulo TEXT NOT NULL,
             descricao TEXT,
-            concluida INTEGER DEFAULT 0
+            concluida INTEGER DEFAULT 0,
+            prioridade TEXT DEFAULT 'media',
+            prazo TEXT
         )
     """)
 
+    # Atualizar bancos antigos sem apagar tarefas
+    colunas = [
+        coluna["name"]
+        for coluna in conexao.execute(
+            "PRAGMA table_info(tarefas)"
+        ).fetchall()
+    ]
+
+    if "prioridade" not in colunas:
+        conexao.execute("""
+            ALTER TABLE tarefas
+            ADD COLUMN prioridade TEXT DEFAULT 'media'
+        """)
+
+    if "prazo" not in colunas:
+        conexao.execute("""
+            ALTER TABLE tarefas
+            ADD COLUMN prazo TEXT
+        """)
+
     conexao.commit()
     conexao.close()
+
+
+# Converter tarefa para JSON
+def formatar_tarefa(tarefa):
+    return {
+        "id": tarefa["id"],
+        "titulo": tarefa["titulo"],
+        "descricao": tarefa["descricao"],
+        "concluida": bool(tarefa["concluida"]),
+        "prioridade": tarefa["prioridade"],
+        "prazo": tarefa["prazo"]
+    }
 
 
 # Página inicial
@@ -34,37 +69,53 @@ def inicio():
     return render_template("index.html")
 
 
-# Listar tarefas
+# Listar e filtrar tarefas
 @app.route("/api/tarefas", methods=["GET"])
 def listar_tarefas():
+    filtro = request.args.get("status", "todas")
+
+    if filtro not in ["todas", "pendentes", "concluidas"]:
+        return jsonify({"erro": "Filtro inválido"}), 400
+
     conexao = conectar_banco()
 
+    consulta = "SELECT * FROM tarefas"
+    parametros = ()
+
+    if filtro == "pendentes":
+        consulta += " WHERE concluida = ?"
+        parametros = (0,)
+
+    elif filtro == "concluidas":
+        consulta += " WHERE concluida = ?"
+        parametros = (1,)
+
+    consulta += " ORDER BY id DESC"
+
     tarefas = conexao.execute(
-        "SELECT * FROM tarefas ORDER BY id DESC"
+        consulta, parametros
     ).fetchall()
 
     conexao.close()
 
-    resultado = []
-
-    for tarefa in tarefas:
-        resultado.append({
-            "id": tarefa["id"],
-            "titulo": tarefa["titulo"],
-            "descricao": tarefa["descricao"],
-            "concluida": bool(tarefa["concluida"])
-        })
-
-    return jsonify(resultado)
+    return jsonify([
+        formatar_tarefa(tarefa)
+        for tarefa in tarefas
+    ])
 
 
 # Cadastrar tarefa
 @app.route("/api/tarefas", methods=["POST"])
 def cadastrar_tarefa():
-    dados = request.get_json(silent=True) or {}
+    dados = request.get_json(silent=True)
+
+    if not isinstance(dados, dict):
+        return jsonify({"erro": "Dados inválidos"}), 400
 
     titulo = dados.get("titulo", "")
     descricao = dados.get("descricao", "")
+    prioridade = dados.get("prioridade", "media")
+    prazo = dados.get("prazo") or None
 
     if not isinstance(titulo, str) or not titulo.strip():
         return jsonify({"erro": "O título é obrigatório"}), 400
@@ -72,17 +123,41 @@ def cadastrar_tarefa():
     if not isinstance(descricao, str):
         return jsonify({"erro": "Descrição inválida"}), 400
 
+    if prioridade not in ["baixa", "media", "alta"]:
+        return jsonify({"erro": "Prioridade inválida"}), 400
+
+    if prazo is not None:
+        if not isinstance(prazo, str):
+            return jsonify({"erro": "Prazo inválido"}), 400
+
+        try:
+            data_prazo = date.fromisoformat(prazo)
+            if data_prazo.isoformat() != prazo:
+                raise ValueError()
+        except ValueError:
+            return jsonify({"erro": "Data inválida"}), 400
+
     conexao = conectar_banco()
 
-    conexao.execute(
-        "INSERT INTO tarefas (titulo, descricao) VALUES (?, ?)",
-        (titulo.strip(), descricao.strip())
-    )
+    cursor = conexao.execute("""
+        INSERT INTO tarefas
+        (titulo, descricao, prioridade, prazo)
+        VALUES (?, ?, ?, ?)
+    """, (
+        titulo.strip(),
+        descricao.strip(),
+        prioridade,
+        prazo
+    ))
 
     conexao.commit()
+    tarefa_id = cursor.lastrowid
     conexao.close()
 
-    return jsonify({"mensagem": "Tarefa cadastrada!"}), 201
+    return jsonify({
+        "mensagem": "Tarefa cadastrada!",
+        "id": tarefa_id
+    }), 201
 
 
 # Concluir ou reabrir tarefa
