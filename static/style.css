@@ -1,45 +1,42 @@
+/* TASKFLOW PRO - ESTILOS */
 
-/* CONFIGURAÇÕES GERAIS */
 
-* {
+{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f1f5f9;
-    color: #1e293b;
+    background: #f0f4f9;
+    color: #17243b;
     line-height: 1.5;
 }
 
+
 .container {
-    width: 94%;
+    width: 92%;
     max-width: 1200px;
     margin: 30px auto;
 }
 
-/* CABEÇALHO */
 
 .header {
-    background-color: #2150d9;
+    background: #214ed8;
     color: white;
     padding: 35px;
     border-radius: 14px;
     margin-bottom: 25px;
 }
 
+
 .header h1 {
     font-size: 32px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
-.header p {
-    color: #e0eaff;
-}
-
-/* CARDS DE ESTATÍSTICAS */
 
 .dashboard {
     display: grid;
@@ -48,182 +45,252 @@ body {
     margin-bottom: 25px;
 }
 
-.card {
-    background-color: white;
-    padding: 25px;
-    border-radius: 12px;
-    border-left: 5px solid #2563eb;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+.card,
+.task-form,
+.tasks-section,
+.chart-section {
+    background: white;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
+
+
+.card {
+    border-left: 5px solid #2563eb;
+}
+
 
 .card h3 {
-    font-size: 15px;
     color: #64748b;
-    margin-bottom: 10px;
+    font-size: 15px;
+    margin-bottom: 12px;
 }
+
 
 .card span {
+    color: #2563eb;
     font-size: 30px;
     font-weight: bold;
-    color: #2563eb;
 }
 
-/* ÁREAS PRINCIPAIS */
 
 .task-form,
 .tasks-section,
 .chart-section {
-    background-color: white;
-    padding: 28px;
-    border-radius: 12px;
     margin-bottom: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.task-form h2,
-.tasks-section h2,
-.chart-section h2 {
-    font-size: 22px;
+
+h2 {
     margin-bottom: 18px;
 }
 
-/* FORMULÁRIO */
 
 .form-group {
     margin-bottom: 18px;
+    flex: 1;
 }
+
 
 .form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 8px;
-    color: #475569;
 }
 
-.form-group input,
-.form-group textarea {
+
+input,
+textarea,
+select {
     width: 100%;
-    padding: 13px;
+    padding: 12px;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    outline: none;
+    font: inherit;
+    background: white;
 }
 
-.form-group textarea {
-    min-height: 90px;
+
+textarea {
+    min-height: 100px;
     resize: vertical;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: #2563eb;
+
+.form-row {
+    display: flex;
+    gap: 20px;
 }
 
-/* BOTÕES */
 
 button {
-    background-color: #2563eb;
-    color: white;
+    cursor: pointer;
     border: none;
     border-radius: 8px;
     padding: 11px 18px;
-    cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.2s;
 }
+
+
+.btn-add,
+.btn-action {
+    background: #2563eb;
+    color: white;
+}
+
 
 button:hover {
-    background-color: #1d4ed8;
+    filter: brightness(0.92);
 }
 
-.btn-add {
-    font-size: 14px;
-}
 
-/* LISTA DE TAREFAS */
-
-#taskList {
+.section-heading {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     gap: 15px;
+    margin-bottom: 18px;
 }
 
-#taskList > div,
-#taskList > article {
-    background-color: #f8fafc;
-    padding: 18px;
+
+.section-heading h2 {
+    margin: 0;
+}
+
+
+.filter-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.filter-box select {
+    min-width: 170px;
+}
+
+
+.task-card {
+    padding: 20px;
     border: 1px solid #e2e8f0;
     border-radius: 10px;
+    margin-bottom: 15px;
 }
 
-#taskList h3 {
-    color: #1e293b;
-    margin-bottom: 6px;
-}
 
-#taskList p {
-    color: #64748b;
+.task-card h3 {
     margin-bottom: 8px;
 }
 
-#taskList button {
-    margin-right: 8px;
-    margin-top: 10px;
+
+.task-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+    align-items: center;
 }
 
-.empty-message {
-    color: #94a3b8;
+
+.task-details span {
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #f1f5f9;
 }
 
-/* GRÁFICO */
 
-.chart-section {
-    text-align: center;
+.priority-baixa {
+    color: #166534;
+    background: #dcfce7 !important;
 }
 
-.chart-section p {
-    color: #64748b;
-    margin-bottom: 20px;
+
+.priority-media {
+    color: #92400e;
+    background: #fef3c7 !important;
 }
 
-#taskChart {
-    display: block;
+
+.priority-alta {
+    color: #991b1b;
+    background: #fee2e2 !important;
+}
+
+
+.status-completed {
+    color: #166534;
+}
+
+
+.status-pending {
+    color: #1d4ed8;
+}
+
+
+.task-completed {
+    background: #f8fafc;
+}
+
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+}
+
+
+.btn-delete {
+    background: #dc2626;
+}
+
+
+.chart-container {
     width: 100%;
-    max-width: 320px;
-    max-height: 320px;
+    max-width: 350px;
+    height: 300px;
     margin: 20px auto;
 }
 
-/* RODAPÉ */
+
+.empty-message {
+    color: #64748b;
+}
+
 
 footer {
     text-align: center;
     color: #64748b;
     padding: 20px;
-    font-size: 14px;
 }
 
-/* RESPONSIVIDADE */
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
     .dashboard {
         grid-template-columns: 1fr;
     }
 
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+
+    .section-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+
+    .filter-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
     .container {
         width: 95%;
-        margin: 15px auto;
-    }
-
-    .header {
-        padding: 25px;
-    }
-
-    .task-form,
-    .tasks-section,
-    .chart-section {
-        padding: 20px;
     }
 }
